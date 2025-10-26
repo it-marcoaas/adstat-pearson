@@ -1,0 +1,88 @@
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+using namespace std;
+
+int main() {
+    cout << "PEARSON CORRELATION COEFFICIENT CALCULATOR\n\n";
+
+    int n;
+    cout << "Enter number of data pairs (n): ";
+    cin >> n;
+
+    double x[n], y[n]; // Arrays for X and Y values
+
+    // Input X 
+    cout << "\nEnter values for X:\n";
+    for (int i = 0; i < n; i++) {
+        cout << "x" << i + 1 << ": ";
+        cin >> x[i];
+    }
+
+    // Input Y 
+    cout << "\nEnter values for Y:\n";
+    for (int i = 0; i < n; i++) {
+        cout << "y" << i + 1 << ": ";
+        cin >> y[i];
+    }
+
+    // Calculate all needed sums 
+    double sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0, sumY2 = 0;
+
+    for (int i = 0; i < n; i++) {
+        sumX += x[i];          // X
+        sumY += y[i];          // Y
+        sumXY += x[i] * y[i];  // XY
+        sumX2 += pow(x[i], 2); // X^2
+        sumY2 += pow(y[i], 2); // Y^2
+    }
+
+    // Compute Pearson formula 
+    double numerator = (n * sumXY) - (sumX * sumY);
+    double denominator = sqrt((n * sumX2 - pow(sumX, 2)) * (n * sumY2 - pow(sumY, 2)));
+
+    cout << fixed << setprecision(15); // show full decimal values
+
+    // Display step-by-step computation 
+    cout << "\nSTEP-BY-STEP CALCULATION\n";
+    cout << "Sum of X = " << sumX << endl;
+    cout << "Sum of Y = " << sumY << endl;
+    cout << "Sum of XY = " << sumXY << endl;
+    cout << "Sum of X^2 = " << sumX2 << endl;
+    cout << "Sum of Y^2 = " << sumY2 << endl;
+
+    cout << "\nNumerator = (n * Sum of XY) - (Sum of X * Sum of Y)\n";
+    cout << "           = (" << n << " * " << sumXY << ") - (" << sumX << " * " << sumY << ")\n";
+    cout << "           = " << numerator << endl;
+
+    cout << "\nDenominator = sqrt((n * Sum of X^2 - (Sum of X)^2) * (n * Sum of Y^2 - (Sum of Y)^2))\n";
+    cout << "            = sqrt((" << n << " * " << sumX2 << " - " << sumX << "^2) * (" 
+         << n << " * " << sumY2 << " - " << sumY << "^2))\n";
+    cout << "            = " << denominator << endl;
+
+    // Check if denominator is zero 
+    if (denominator == 0) {
+        cout << "\nError: Denominator is zero. Cannot compute correlation.\n";
+        return 0;
+    }
+
+    // Compute final r value 
+    double r = numerator / denominator;
+
+    cout << "\nFINAL FORMULA \n";
+    cout << "r = (" << n << " * " << sumXY << " - " << sumX << " * " << sumY 
+         << ") / sqrt((" << n << " * " << sumX2 << " - " << sumX << "^2) * (" 
+         << n << " * " << sumY2 << " - " << sumY << "^2))\n";
+
+    cout << "\nPearson Correlation Coefficient (r) = " << r << endl;
+
+    
+    if (r > 0)
+        cout << "=> Positive correlation.\n";
+    else if (r < 0)
+        cout << "=> Negative correlation.\n";
+    else
+        cout << "=> No correlation.\n";
+
+    return 0;
+}
